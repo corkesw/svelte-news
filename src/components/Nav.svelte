@@ -4,18 +4,21 @@
   import { Link } from "svelte-navigator";
   import { getTopics } from "../utils/api";
 
-  let topicList;
-  onMount(
-    getTopics()
-      .then((topics) => {
-        topicList = topics;
-      })
-      .catch((err) => console.log(err))
-  );
+  let topics = [];
+
+  export let topic
+
+  onMount(async () => {
+    topics = await getTopics();
+  });
 </script>
 
 <nav>
-  {#each topicList as topic}
-    <Link to={`/articles/${topic.slug}`}>{topic.slug}</Link>
+    <Link to={`/articles`} on:click={topic=undefined}>home</Link>
+  {#each topics as topicLink}
+    <Link to={`/articles/${topicLink.slug}`} on:click={topic=topicLink.slug}>{topicLink.slug}</Link>
+  {:else}
+    <p>Loading...</p>
   {/each}
+  
 </nav>
