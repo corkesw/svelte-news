@@ -3,23 +3,36 @@
   import Articles from "./components/Articles.svelte";
   import Header from "./components/Header.svelte";
   import Nav from "./components/Nav.svelte";
-  let topic
+  import Login from "./components/Login.svelte";
+  import { user } from "./stores";
+  let topic;
   let sortBy = "title";
   let order = "asc";
   let page = "1";
+
+  let userValue
+  user.subscribe(value => {
+    console.log(value)
+    userValue = value
+  })
+  
 </script>
 
-<Router>
+<Router primary={false}>
   <Header />
-  <Nav bind:topic/>
+  <Nav bind:topic />
 
   <main>
     <Route path="/articles">
       <Articles bind:topic bind:sortBy bind:order bind:page />
     </Route>
+    <Route path="/">
+      <Articles bind:topic bind:sortBy bind:order bind:page />
+    </Route>
     <Route path="articles/:topic" let:params>
       <Articles topic={params.topic} />
     </Route>
+    <Route path="/login"><Login /></Route>
   </main>
 </Router>
 
