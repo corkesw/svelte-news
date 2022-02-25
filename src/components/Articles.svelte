@@ -2,20 +2,29 @@
   import { Link } from "svelte-navigator";
 
   import { getArticles } from "../utils/api";
+  import { useParams } from "svelte-navigator";
 
+  const params = useParams();
+ 
   export let topic;
   export let sortBy;
   export let order;
   export let page;
 
-  let articles = [];
-  $: console.log(articles);
-  $: console.log(order)
+  $: if ($params.chosenTopic !== topic) {
+    console.log("change!");
+    topic = $params.chosenTopic;
+    page = 1
+  }
 
+  let articles = [];
+  let totalArticles = 0;
+ 
   $: if (topic !== "" || sortBy !== "" || order !== "" || page !== "") {
     getArticles({ topic, sortBy, order, page })
       .then((res) => {
         articles = res.articles;
+        totalArticles = res.total_count;
       })
       .catch((err) => console.log(err));
   }
@@ -37,9 +46,9 @@
     class={`sortcreated_at ${sortBy} styledbutton`}
     type="button"
     on:click={() => {
-        sortBy = "created_at";
-        page = 1;
-      }}
+      sortBy = "created_at";
+      page = 1;
+    }}
   >
     Date
   </button>
@@ -47,9 +56,9 @@
     class={`sorttitle ${sortBy} styledbutton`}
     type="button"
     on:click={() => {
-        sortBy = "title";
-        page = 1;
-      }}
+      sortBy = "title";
+      page = 1;
+    }}
   >
     Title
   </button>
@@ -69,9 +78,9 @@
     class={`sortvotes ${sortBy} styledbutton`}
     type="button"
     on:click={() => {
-        sortBy = "votes";
-        page = 1;
-      }}
+      sortBy = "votes";
+      page = 1;
+    }}
   >
     Votes
   </button>
@@ -79,9 +88,9 @@
     class={`sortcomment_count ${sortBy} styledbutton`}
     type="button"
     on:click={() => {
-        sortBy = "comment_count";
-        page = 1;
-      }}
+      sortBy = "comment_count";
+      page = 1;
+    }}
   >
     Comments
   </button>
@@ -92,8 +101,8 @@
         class="order__button"
         type="button"
         on:click={() => {
-            order = "asc";
-          }}
+          order = "asc";
+        }}
       >
         Desc
       </button>
@@ -102,8 +111,8 @@
         class="order__button"
         type="button"
         on:click={() => {
-            order = "desc";
-          }}
+          order = "desc";
+        }}
       >
         Asc
       </button>
@@ -129,13 +138,35 @@
             new Date(article.created_at).getMonth() + 1
           }/${new Date(article.created_at).getFullYear()}`}
           <span class="desktop">
-            {" "}
             Votes: {article.votes} Comments: {article.comment_count}
           </span>
         </p>
       </div>
     </Link>
   {/each}
+  {#if totalArticles > 10}
+    <p class="pagination">
+      <button
+        class="styledbutton"
+        on:click={() => {
+          page = page - 1;
+        }}
+        disabled={page <= 1}
+      >
+        Back
+      </button>
+      Page {page}
+      <button
+        class="styledbutton"
+        on:click={() => {
+          page = page + 1;
+        }}
+        disabled={page * 10 > totalArticles}
+      >
+        Forward
+      </button>
+    </p>
+  {/if}
 </div>
 
 <style>

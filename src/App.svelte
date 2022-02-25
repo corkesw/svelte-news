@@ -8,7 +8,7 @@
   let topic;
   let sortBy = "title";
   let order = "asc";
-  let page = "1";
+  let page = 1;
 
   let userValue
   user.subscribe(value => {
@@ -20,7 +20,7 @@
 
 <Router primary={false}>
   <Header />
-  <Nav bind:topic />
+  <Nav />
 
   <main>
     <Route path="/articles">
@@ -29,8 +29,8 @@
     <Route path="/">
       <Articles bind:topic bind:sortBy bind:order bind:page />
     </Route>
-    <Route path="articles/:topic" let:params>
-      <Articles topic={params.topic} />
+    <Route path="articles/:chosenTopic" let:params>
+      <Articles chosenTopic={params.chosenTopic} />
     </Route>
     <Route path="/login"><Login /></Route>
   </main>
