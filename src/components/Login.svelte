@@ -14,7 +14,6 @@
   $: console.log(userInput);
 
   const handleLogin = (e) => {
-    console.log("hi!");
     err = null;
     getUsers(userInput).then((res) => {
       if (res) {
@@ -27,29 +26,36 @@
       }
     });
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("loggedInUser");
+    user.update((user) => "");
+  };
 </script>
 
-<div class="login">
-  <form class="loginform" on:submit|preventDefault={handleLogin}>
-    <label for="username" name="username" />
-    <input
-      on:input={(e) => {
-        // err = false;
-        userInput = e.target.value;
-      }}
-      value={userInput}
-      type="text"
-      name="username"
-      placeholder="username"
-    />
-    <button>Login</button>
-    <br />
-    {#if err}
-      <p class="errormessage">{err}</p>
-    {/if}
-    {#if userValue}
-      <p>You are logged in as {userValue}</p>
-    {/if}
-  </form>
-  <span class="spacer" />
-</div>
+{#if userValue}
+  <p>You are logged in as {userValue}</p>
+  <button on:click={handleLogout}>Logout</button>
+{:else}
+  <div class="login">
+    <form class="loginform" on:submit|preventDefault={handleLogin}>
+      <label for="username" name="username" />
+      <input
+        on:input={(e) => {
+          // err = false;
+          userInput = e.target.value;
+        }}
+        value={userInput}
+        type="text"
+        name="username"
+        placeholder="username"
+      />
+      <button>Login</button>
+      <br />
+      {#if err}
+        <p class="errormessage">{err}</p>
+      {/if}
+    </form>
+    <span class="spacer" />
+  </div>
+{/if}

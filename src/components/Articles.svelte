@@ -12,7 +12,6 @@
   export let page;
 
   $: if ($params.chosenTopic !== topic) {
-    console.log("change!");
     topic = $params.chosenTopic;
     page = 1
   }
