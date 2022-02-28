@@ -19,8 +19,6 @@
   let charactersLeftInForm = 200;
   let err = false;
 
-  //   const { user } = useContext(UserContext);
-
   const handleCommentSubmit = (e) => {
     err = false;
     postComments(newCommentInput, userValue, articleId)

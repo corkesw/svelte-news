@@ -2,6 +2,7 @@
   import { useParams } from "svelte-navigator";
   import { getArticle, getComments, incVote } from "../utils/api";
   import CommentAdd from "./CommentAdd.svelte";
+  import Comments from "./Comments.svelte";
   const params = useParams();
   let articleId = $params.articleId;
   let article = {};
@@ -12,9 +13,9 @@
   let viewComments = false;
   let commentErr = false;
   let comments = [];
-  let addComment = true;
-  let commentChange = false
-  let commentAdded = false
+  let addComment = false;
+  let commentChange = false;
+  let commentAdded = false;
 
   const handleVoteClick = () => {
     voteErr = false;
@@ -34,9 +35,11 @@
     getComments(articleId)
       .then((res) => {
         comments = res;
+        viewComments = !viewComments;
       })
       .catch((err) => {
         commentErr = true;
+        viewComments = false;
       });
   };
 
@@ -88,11 +91,7 @@
         Hide Comments
       </button>
     {:else}
-      <button
-        className="styledbutton"
-        type="button"
-        on:click={handleCommentClick}
-      >
+      <button class="styledbutton" type="button" on:click={handleCommentClick}>
         Comments
       </button>
     {/if}
@@ -103,8 +102,7 @@
   <button
     class="styledbutton"
     on:click={() => {
-      // setAddComment(true);
-      // commentAdded.reset();
+      addComment = true;
     }}
   >
     Add comment
@@ -117,13 +115,12 @@
   </span>
 {/if}
 
-<CommentAdd bind:commentAdded bind:commentChange bind:articleId bind:addComment bind:viewComments />
+<CommentAdd
+  bind:commentAdded
+  bind:commentChange
+  bind:articleId
+  bind:addComment
+  bind:viewComments
+/>
 
-<!-- <Comments
-                article_id={article_id}
-                setViewComments={setViewComments}
-                viewComments={viewComments}
-                commentChange={commentChange}
-                setCommentChange={setCommentChange}
-              />
-               -->
+<Comments bind:articleId bind:viewComments bind:commentChange />

@@ -120,7 +120,7 @@
 </p>
 
 <div>
-  <p>Articles</p>
+
   {#each articles as article}
     <Link class="article--link" to={`/article/${article.article_id}`}>
       <div class="article__div">
@@ -169,12 +169,12 @@
 </div>
 
 <style>
-  .articles {
+  :global(.articles) {
     /* background-color: #094074; */
     padding-top: 1px;
   }
 
-  .article__div {
+  :global(.article__div) {
     border: 2px solid black;
     border-radius: 10px;
     padding: 3px;
@@ -185,11 +185,11 @@
     text-decoration: none;
   }
 
-  .centre {
+  :global(.centre) {
     text-align: center;
   }
 
-  p.article--title {
+  :global(p.article--title) {
     font-size: large;
     font-weight: bold;
     text-decoration: none;
@@ -209,37 +209,37 @@
   background-color: rgb(248, 231, 234);
 } */
 
-  p.article--details {
+  :global(p.article--details) {
     font-size: small;
     margin: 0px 0px 5px 0px;
   }
 
-  .article--link:link {
+  :global(.article--link:link) {
     text-decoration: none;
     color: green;
   }
 
-  .article--link:visited {
+  :global(.article--link:visited) {
     text-decoration: none;
     color: red;
   }
 
-  .article--link .article__div:hover {
+  :global(.article--link .article__div:hover) {
     color: #dc851f;
     background-color: #6a687a;
   }
 
-  div .comment {
+  :global(div .comment) {
     padding: 0px;
     margin: 0px;
   }
 
-  .comment--form {
+  :global(.comment--form) {
     padding: 0px;
     margin: 0px;
   }
 
-  #comment {
+  :global(#comment) {
     word-wrap: break-word;
     word-break: break-all;
     height: 80px;
@@ -249,26 +249,26 @@
     left: 0px;
   }
 
-  .charsleft {
+  :global(.charsleft) {
     margin-left: 5px;
   }
-  .charsleft.amber {
+  :global(.charsleft.amber) {
     font-size: 0.7rem;
     background-color: orangered;
     color: white;
   }
 
-  .charsleft.green {
+  :global(.charsleft.green) {
     font-size: 0.7rem;
   }
 
-  .charsleft.red {
+  :global(.charsleft.red) {
     font-size: 0.7rem;
     background-color: red;
     color: white;
   }
 
-  .sortby {
+  :global(.sortby) {
     color: white;
     display: flex;
     flex-wrap: wrap;
@@ -280,12 +280,12 @@
     justify-content: space-between;
   }
 
-  .sortby button {
+  :global(.sortby button) {
     margin: 0px, 5px;
     padding: 2px;
   }
 
-  .order__span {
+  :global(.order__span) {
     align-items: center;
   }
 
